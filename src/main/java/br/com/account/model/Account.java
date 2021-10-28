@@ -14,6 +14,20 @@ public class Account {
 	private Long id ;
 	
 	private BigDecimal balance;
+	
+	public Account(Long id, BigDecimal balance) {
+		this.id = id;
+		this.balance = balance;
+	}
+	
+	public Account(Account account ) {
+		this.id = account.id;
+		this.balance = account.balance;		
+	}
+	
+	public Account() {
+		
+	}
 
 	public Long getId() {
 		return id;
