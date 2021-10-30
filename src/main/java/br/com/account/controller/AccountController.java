@@ -38,7 +38,7 @@ public class AccountController {
 	public ResponseEntity<?> reset() {
 		AccountService accountService = new AccountService();
 		accountService.deleteAccount(accountRepository);
-		return ResponseEntity.ok(new String("ok"));
+		return ResponseEntity.ok(new String("OK"));
 	}
 	
 	@RequestMapping("/balance")
@@ -58,7 +58,7 @@ public class AccountController {
 	public ResponseEntity<?> balance(@RequestBody @Valid AccountForm form, UriComponentsBuilder uriBuilder){
 		//Account account = form.converter();
 		AccountService accountService = new AccountService();
-		if(form.getType().equals("transf")) {
+		if(form.getType().equals("transfer")) {
 			if(accountService.transfAccount(form, accountRepository)) {
 				Optional<Account> optionalDestination = accountRepository.findById(form.getDestination());
 				Account accountDestination = optionalDestination.get();

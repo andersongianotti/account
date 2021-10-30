@@ -30,7 +30,7 @@ public class AccountService {
 				novoValorSaldo = account.getBalance().subtract(form.getAmount());
 				account.setBalance(novoValorSaldo);
 			}
-		} else if (form.getType().equals("transf")) {
+		} else if (form.getType().equals("transfer")) {
 			Optional<Account> optionalDestination = accountRepository.findById(form.getDestination());
 			Optional<Account> optionalOrigin = accountRepository.findById(form.getOrigin());
 			if (optionalOrigin.isPresent()) {
