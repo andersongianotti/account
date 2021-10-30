@@ -10,12 +10,12 @@ import javax.persistence.Id;
 @Entity      
 public class Account {
 	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id ;
+	@Id 
+	private String id ;
 	
 	private BigDecimal balance;
 	
-	public Account(Long id, BigDecimal balance) {
+	public Account(String id, BigDecimal balance) {
 		this.id = id;
 		this.balance = balance;
 	}
@@ -29,11 +29,11 @@ public class Account {
 		
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

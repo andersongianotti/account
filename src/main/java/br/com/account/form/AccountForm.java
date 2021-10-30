@@ -12,21 +12,27 @@ public class AccountForm {
 
 	@NotNull @NotEmpty
 	private String type ;
-	@NotNull 
-	private Long destination;
+	private String destination;
 	@NotNull 
 	private BigDecimal amount ;
+	private String origin ;
 	
+	public String getOrigin() {
+		return origin;
+	}
+	public void setOrigin(String origin) {
+		this.origin = origin;
+	}
 	public String getType() {
 		return type;
 	}
 	public void setType(String type) {
 		this.type = type;
 	}
-	public Long getDestination() {
+	public String getDestination() {
 		return destination;
 	}
-	public void setDestination(Long destination) {
+	public void setDestination(String destination) {
 		this.destination = destination;
 	}
 	public BigDecimal getAmount() {

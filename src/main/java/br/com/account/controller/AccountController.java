@@ -17,9 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.account.dto.AccountDto;
+import br.com.account.dto.OriginDto;
+import br.com.account.dto.TransfDto;
+import br.com.account.dto.TypeDto;
 import br.com.account.form.AccountForm;
 import br.com.account.model.Account;
 import br.com.account.repository.AccountRepository;
+import br.com.account.service.AccountService;
 
 
 @RestController
@@ -32,12 +36,14 @@ public class AccountController {
 	@RequestMapping("/reset")
 	@ResponseBody
 	public ResponseEntity<?> reset() {
+		AccountService accountService = new AccountService();
+		accountService.deleteAccount(accountRepository);
 		return ResponseEntity.ok(new String("ok"));
 	}
 	
 	@RequestMapping("/balance")
 	@ResponseBody
- 	public ResponseEntity<?> lista(Long account_id) {
+ 	public ResponseEntity<?> lista(String account_id) {
 			Optional<Account> account = accountRepository.findById(account_id);
 				
 			if (account.isPresent()) {
@@ -50,15 +56,36 @@ public class AccountController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<?> balance(@RequestBody @Valid AccountForm form, UriComponentsBuilder uriBuilder){
-		Account account = form.converter();
-		System.out.println(account.getId());
-		System.out.println(account.getBalance());
-		accountRepository.save(account);
-		
-	//	URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(account.getId()).toUri();
-		//return ResponseEntity.created(uri).body(new AccountDto(account));
-	return ResponseEntity.ok(new AccountDto(account));
+		//Account account = form.converter();
+		AccountService accountService = new AccountService();
+		if(form.getType().equals("transf")) {
+			if(accountService.transfAccount(form, accountRepository)) {
+				Optional<Account> optionalDestination = accountRepository.findById(form.getDestination());
+				Account accountDestination = optionalDestination.get();
+				Optional<Account> optionalOrigin = accountRepository.findById(form.getOrigin());
+				Account accountOrigin = optionalOrigin.get();
+				URI uri = uriBuilder.path("/event").buildAndExpand(accountOrigin.getId()).toUri();
+				return ResponseEntity.created(uri).body(new TransfDto(new AccountDto(accountOrigin),
+						new AccountDto(accountDestination)));
+			}
+			else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new String("0"));
+			}
+		}else {
+			Account account = accountService.tratarAccount(form, accountRepository);
+			if(account!=null) {
+				URI uri = uriBuilder.path("/event").buildAndExpand(account.getId()).toUri();
+				if(form.getDestination()!=null) {
+					return ResponseEntity.created(uri).body(new TypeDto(new AccountDto(account)));
+				}
+				else {
+					return ResponseEntity.created(uri).body(new OriginDto(new AccountDto(account)));
+				}
+			}
+			else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new String("0"));
+			}
+			
+		}
 	}
-
-
 }

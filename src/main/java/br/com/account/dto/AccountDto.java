@@ -9,9 +9,11 @@ import br.com.account.model.Account;
 public class AccountDto {
 	
 	public AccountDto(Account account) {
+		this.id = account.getId();
 		this.balance = account.getBalance();
 	}
 
+	private String id;
 	private BigDecimal balance ;
 
 	public BigDecimal getBalance() {
@@ -22,6 +24,16 @@ public class AccountDto {
 		this.balance = balance;
 	}
 	
+	
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public static List<AccountDto> converter(List<Account> accounts) {
 		return accounts.stream().map(AccountDto::new).collect(Collectors.toList());
 	}
