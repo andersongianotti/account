@@ -7,6 +7,7 @@ import br.com.account.form.AccountForm;
 import br.com.account.model.Account;
 import br.com.account.repository.AccountRepository;
 
+
 public class AccountService {
 
 	public Account tratarAccount(AccountForm form, AccountRepository accountRepository) {
