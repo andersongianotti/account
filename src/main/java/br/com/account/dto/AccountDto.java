@@ -10,18 +10,18 @@ public class AccountDto {
 	
 	public AccountDto(Account account) {
 		this.id = account.getId();
-		this.balance = account.getBalance();
+		this.balance_1 = account.getBalance();
 	}
 
 	private String id;
-	private BigDecimal balance ;
+	private BigDecimal balance_1 ;
 
-	public BigDecimal getBalance() {
-		return balance;
+	public BigDecimal getBalance_1() {
+		return balance_1;
 	}
 
-	public void setBalance(BigDecimal balance) {
-		this.balance = balance;
+	public void setBalance_1(BigDecimal balance) {
+		this.balance_1 = balance;
 	}
 	
 	
